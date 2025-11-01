@@ -5,11 +5,13 @@
 </template>
 
 <style lang="scss">
-@import "@/assets/scss/app.scss";
+@use "./assets/scss/app" as *;
+
 body {
   justify-content: center;
   align-items: center;
 }
+
 .main__wrapper {
   padding-bottom: 30px;
 

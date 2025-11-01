@@ -1,3 +1,8 @@
-@import "m_center.scss";
-@import "m_media.scss";
-@import "m_clear-list.scss";
+@use 'm_center';
+@use 'm_media';
+@use 'm_clear-list';
+
+// Передаем все миксины наружу
+@forward 'm_center';
+@forward 'm_media';
+@forward 'm_clear-list';

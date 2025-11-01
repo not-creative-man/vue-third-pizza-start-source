@@ -1,3 +1,8 @@
-@import "ds-colors.scss";
-@import "ds-shadows.scss";
-@import "ds-typography.scss";
+@use './ds-colors' as *;
+@use './ds-shadows' as *;
+@use './ds-typography' as *;
+
+// Передаем все переменные наружу
+@forward './ds-colors';
+@forward './ds-shadows';
+@forward './ds-typography';
