@@ -1,10 +1,13 @@
-// general
+// Base and vendor styles
 @use 'libs/normalize';
 @use 'fonts';
 @use 'ds-system/ds' as *;
 @use 'visually-hidden';
 @use 'scaffolding';
 @use 'mixins/mixins' as *;
+
+// Common styles
+@use 'common_styles';
 
 // Передаем все миксины и переменные наружу
 @forward 'libs/normalize';
