@@ -42,4 +42,63 @@ export const usePizzaStore = defineStore("pizza", {
       return pizzaPrice(state);
     },
   },
+  actions: {
+    updateIngredientQuantity(ingredientId, newQuantity) {
+      const existingIngredient = this.ingredients.find(
+        (i) => i.ingredientId === ingredientId
+      );
+
+      if (existingIngredient) {
+        if (newQuantity > 0) {
+          existingIngredient.quantity = newQuantity;
+        } else {
+          this.ingredients = this.ingredients.filter(
+            (i) => i.ingredientId !== ingredientId
+          );
+        }
+      } else if (newQuantity > 0) {
+        this.ingredients.push({
+          ingredientId,
+          quantity: newQuantity,
+        });
+      }
+    },
+
+    incrementIngredient(ingredientId) {
+      const existingIngredient = this.ingredients.find(
+        (i) => i.ingredientId === ingredientId
+      );
+      const newQuantity = existingIngredient ? existingIngredient.quantity + 1 : 1;
+      this.updateIngredientQuantity(ingredientId, newQuantity);
+    },
+
+    decrementIngredient(ingredientId) {
+      const existingIngredient = this.ingredients.find(
+        (i) => i.ingredientId === ingredientId
+      );
+      if (existingIngredient) {
+        this.updateIngredientQuantity(ingredientId, existingIngredient.quantity - 1);
+      }
+    },
+
+    setDough(doughId) {
+      this.doughId = doughId;
+    },
+
+    setSize(sizeId) {
+      this.sizeId = sizeId;
+    },
+
+    setSauce(sauceId) {
+      this.sauceId = sauceId;
+    },
+
+    resetPizza() {
+      this.name = '';
+      this.sauceId = 0;
+      this.doughId = 0;
+      this.sizeId = 0;
+      this.ingredients = [];
+    }
+  },
 });
