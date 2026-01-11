@@ -1,14 +1,14 @@
 import { defineStore } from 'pinia';
-import doughJSON from "@/mocks/dough.json";
-import ingredientsJSON from "@/mocks/ingredients.json";
-import saucesJSON from "@/mocks/sauces.json";
-import sizesJSON from "@/mocks/sizes.json";
+import ingredientsConverter from "@/common/helpers/ingredientsConverter";
+import saucesConverter from "@/common/helpers/sauceConverter";
+import sizesConverter from "@/common/helpers/sizesConverter";
+import doughConverter from "@/common/helpers/doughConverter";
 
 export const useDataStore = defineStore('data', {
   state: () => ({
-    doughs: doughJSON,
-    ingredients: ingredientsJSON,
-    sauces: saucesJSON,
-    sizes: sizesJSON,
+    doughs: doughConverter,
+    ingredients: ingredientsConverter,
+    sauces: saucesConverter,
+    sizes: sizesConverter,
   }),
 });

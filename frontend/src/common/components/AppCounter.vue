@@ -6,30 +6,30 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['increment', 'decrement']);
+const emit = defineEmits(["increment", "decrement"]);
 </script>
 
 <template>
   <div class="counter counter--orange ingredients__counter">
     <button
-        type="button"
-        class="counter__button counter__button--minus"
-        :disabled="!count"
-        @click="emit('decrement')"
+      type="button"
+      class="counter__button counter__button--minus"
+      :disabled="!count"
+      @click="emit('decrement')"
     >
       <span class="visually-hidden">Меньше</span>
     </button>
     <input
-        type="text"
-        name="counter"
-        class="counter__input"
-        :value="count"
-        readonly
+      type="text"
+      name="counter"
+      class="counter__input"
+      :value="count"
+      readonly
     />
     <button
-        type="button"
-        class="counter__button counter__button--plus"
-        @click="emit('increment')"
+      type="button"
+      class="counter__button counter__button--plus"
+      @click="emit('increment')"
     >
       <span class="visually-hidden">Больше</span>
     </button>

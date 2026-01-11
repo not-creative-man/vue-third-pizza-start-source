@@ -2,62 +2,94 @@
 import { defineProps } from "vue";
 import AppDrag from "@/common/components/AppDrag.vue";
 import AppCounter from "@/common/components/AppCounter.vue";
+import { DATA_TRANSFER_PAYLOAD } from "@/common/constants";
 
-const props = defineProps({
-  modelValue: {
-    type: Array<string>,
-    required: true,
-  },
-  ingredients: {
-    type: Array<string>,
-    required: true,
-  },
-  ingredientsMap: {
-    type: Object,
-    required: true,
-  },
-});
+interface Ingredient {
+  id: number;
+  name: string;
+  value: string;
+  price: number;
+  image: string;
+}
 
-console.log(props.ingredients);
-console.log(props.ingredientsMap);
+interface PizzaIngredient {
+  ingredientId: number;
+  quantity: number;
+}
 
-const emit = defineEmits(['update:modelValue']);
+const props = defineProps<{
+  modelValue: PizzaIngredient[];
+  ingredients: Ingredient[];
+}>();
 
-const ingredientCount = (ingredient: string) => {
-  return props.modelValue.filter(item => item === ingredient).length;
+console.log(props.modelValue)
+
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: PizzaIngredient[]): void;
+  (e: 'increment', ingredientId: number): void;
+  (e: 'decrement', ingredientId: number): void;
+}>();
+
+const getIngredientCount = (ingredientId: number): number => {
+  const ingredient = props.modelValue.find(item =>
+      item.ingredientId == ingredientId
+  );
+  console.log(ingredientId)
+  console.log(ingredient)
+  return ingredient ? ingredient.quantity : 0;
 };
 
-const incrementIngredient = (ingredient: string) => {
-  const newIngredients = [...props.modelValue, ingredient];
-  emit('update:modelValue', newIngredients);
+const incrementIngredient = (ingredientId: number) => {
+  emit('increment', ingredientId);
 };
 
-const decrementIngredient = (ingredient: string) => {
-  const index = props.modelValue.indexOf(ingredient);
-  if (index > -1) {
-    const newIngredients = [...props.modelValue];
-    newIngredients.splice(index, 1);
-    emit('update:modelValue', newIngredients);
+const decrementIngredient = (ingredientId: number) => {
+  emit('decrement', ingredientId);
+};
+
+const onDrop = (event) => {
+  const data = event.dataTransfer?.getData(DATA_TRANSFER_PAYLOAD);
+  if (data) {
+    const { ingredientName } = JSON.parse(data);
+    const ingredient = props.ingredients.find(i => i.name === ingredientName);
+    if (ingredient) {
+      incrementIngredient(ingredient.id);
+    }
   }
 };
 </script>
 
 <template>
-  <div class="ingredients__filling">
+  <div
+      class="ingredients__filling"
+      @drop="onDrop"
+      @dragover.prevent
+      @dragenter.prevent
+  >
     <p>Начинка:</p>
 
     <ul class="ingredients__list">
       <li
         v-for="ingredient in ingredients"
-        :key="ingredient"
+        :key="ingredient.id"
         class="ingredients__item"
       >
-        <app-drag :transfer-data="{'ingredientType': ingredient, 'ingredientName': ingredientsMap[ingredient]}" :draggable="true">
-          <span :class="'filling filling--' + ingredient">{{
-            ingredientsMap[ingredient]
-          }}</span>
+        <app-drag
+          :transfer-data="{
+            ingredientType: ingredient.value,
+            ingredientName: ingredient.name
+          }"
+          :draggable="true"
+        >
+          <span :class="'filling filling--' + ingredient.value">
+            {{ ingredient.name }}
+          </span>
         </app-drag>
-        <app-counter :count="ingredientCount(ingredient)" @increment="incrementIngredient(ingredient)" @decrement="decrementIngredient(ingredient)" />
+        <app-counter
+          :count="getIngredientCount(ingredient.id)"
+          @increment="incrementIngredient(ingredient.id)"
+          @decrement="decrementIngredient(ingredient.id)"
+        />
       </li>
     </ul>
   </div>

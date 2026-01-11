@@ -1,13 +1,21 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 
+interface Sizes {
+  id: number;
+  image: string;
+  multiplier: number;
+  name: string;
+  type: string;
+}
+
 const props = defineProps({
   modelValue: {
     type: String,
     required: true,
   },
   sizes: {
-    type: Array,
+    type: Array<Sizes>,
     required: true,
   },
 });
@@ -20,19 +28,19 @@ const props = defineProps({
       <div class="sheet__content diameter">
         <label
           v-for="size in sizes"
-          :key="size"
-          :class="'diameter__input diameter__input-' + size"
+          :key="size.id"
+          :class="'diameter__input diameter__input-' + size.type"
         >
           <input
             type="radio"
             name="diameter"
-            :value="size"
+            :value="size.id"
             class="visually-hidden"
-            :checked="size === 'normal'"
+            :checked="size.type === 'normal'"
             @change="$emit('update:modelValue', $event.target.value)"
           />
           <span>{{
-            size === "small" ? "23 см" : size === "normal" ? "32 см" : "45 см"
+            size.type === "small" ? "23 см" : size.type === "normal" ? "32 см" : "45 см"
           }}</span>
         </label>
       </div>

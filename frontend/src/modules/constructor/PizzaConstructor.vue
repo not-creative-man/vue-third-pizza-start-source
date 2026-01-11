@@ -8,16 +8,16 @@ const props = defineProps({
     required: true,
   },
   sauce: {
-    type: String,
-    default: "tomato",
+    type: Object,
+    default: { value: "tomato", id: 1 },
   },
   dough: {
-    type: String,
-    default: "big",
+    type: Object,
+    default: { type: "big", id: 1 },
   },
   size: {
-    type: String,
-    default: "normal",
+    type: Object,
+    default: { type: "normal", id: 1 },
   },
 });
 
@@ -34,7 +34,7 @@ const handleDrop = (event) => {
 <template>
   <div class="content__constructor">
     <app-drop @drop="handleDrop">
-      <div class="pizza" :class="`pizza--foundation--${size}-${sauce}`">
+      <div class="pizza" :class="`pizza--foundation--${size.type}-${sauce.value}`">
         <div class="pizza__wrapper">
           <div
             v-for="(ingredient, index) in ingredients"

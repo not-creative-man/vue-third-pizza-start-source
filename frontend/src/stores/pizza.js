@@ -6,23 +6,23 @@ export const usePizzaStore = defineStore("pizza", {
   state: () => ({
     index: null,
     name: "",
-    sauceId: 0,
-    doughId: 0,
-    sizeId: 0,
+    sauceId: 1,
+    doughId: 1,
+    sizeId: 1,
     ingredients: [],
   }),
   getters: {
     sauce: (state) => {
       const data = useDataStore();
-      return data.sauces.find((i) => i.id === state.sauceId) ?? data.sauces[0];
+      return data.sauces.find((i) => i.id == state.sauceId) ?? data.sauces[0];
     },
     dough: (state) => {
       const data = useDataStore();
-      return data.doughs.find((i) => i.id === state.doughId) ?? data.doughs[0];
+      return data.doughs.find((i) => i.id == state.doughId) ?? data.doughs[0];
     },
     size: (state) => {
       const data = useDataStore();
-      return data.sizes.find((i) => i.id === state.sizeId) ?? data.sizes[0];
+      return data.sizes.find((i) => i.id == state.sizeId) ?? data.sizes[0];
     },
     ingredientsExtended: (state) => {
       const data = useDataStore();

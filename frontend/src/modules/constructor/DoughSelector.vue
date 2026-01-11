@@ -20,18 +20,18 @@ defineEmits(['update:modelValue']);
       <div class="sheet__content dough">
         <label
           v-for="doughSize in doughSizes"
-          :key="doughSize"
-          :class="'dough__input dough__input-' + doughSize"
+          :key="doughSize.id"
+          :class="'dough__input dough__input-' + doughSize.type"
         >
           <input
             type="radio"
             name="dought"
-            :value="doughSize"
+            :value="doughSize.id"
             class="visually-hidden"
-            :checked="doughSize === 'light'"
+            :checked="doughSize.type === 'light'"
             @change="$emit('update:modelValue', $event.target.value)"
           />
-          <b>{{ doughSize === "light" ? "Тонкое" : "Толстое" }}</b>
+          <b>{{ doughSize.type === "light" ? "Тонкое" : "Толстое" }}</b>
           <span>Из твердых сортов пшеницы</span>
         </label>
       </div>

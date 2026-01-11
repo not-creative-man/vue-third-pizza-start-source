@@ -19,18 +19,18 @@ const props = defineProps({
 
     <label
       v-for="sauce in sauces"
-      :key="sauce"
+      :key="sauce.id"
       class="radio ingredients__input"
     >
       <input
         type="radio"
         name="sauce"
-        :value="sauce"
+        :value="sauce.id"
         class="visually-hidden"
-        :checked="sauce === 'tomato'"
+        :checked="sauce.value === 'tomato'"
         @change="$emit('update:modelValue', $event.target.value)"
       />
-      <span>{{ sauce === "tomato" ? "Томатный" : "Сливочный" }}</span>
+      <span>{{ sauce.value === "tomato" ? "Томатный" : "Сливочный" }}</span>
     </label>
   </div>
 </template>
